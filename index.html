@@ -4,26 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <link rel="stylesheet" href="./style.css">
     <script defer src="./script.js"></script>
 </head>
 <body>
     <div id="container">
-        <div id="display">12345</div>
+        <div id="display"></div>
         <div id="buttons">
-            <button id="zero">0</button>
-            <button id="one">1</button>
-            <button id="two">2</button>
-            <button id="three">3</button>
-            <button id="four">4</button>
-            <button id="five">5</button>
-            <button id="six">6</button>
-            <button id="seven">7</button>
-            <button id="eight">8</button>
-            <button id="add">+</button>
-            <button id="subtract">-</button>
-            <button id="multiply">X</button>
-            <button id="divide">/</button>
-            <button id="clear">Clear</button>
+            <div id="row1" class="btns">
+                <button id="seven" class="btn">7</button>
+                <button id="eight" class="btn">8</button>
+                <button id="nine" class="btn">9</button>
+                <button id="divide" class="btn">/</button>
+            </div>
+            <div id="row2" class="btns">
+                <button id="four" class="btn">4</button>
+                <button id="five" class="btn">5</button>
+                <button id="six" class="btn">6</button>
+                <button id="multiply" class="btn">x</button>
+            </div>
+            <div id="row3" class="btns">
+                <button id="one" class="btn">1</button>
+                <button id="two" class="btn">2</button>
+                <button id="three" class="btn">3</button>
+                <button id="subtract" class="btn">-</button>
+            </div>
+            <div id="row4" class="btns">
+                <button id="zero" class="btn">0</button>
+                <button id="dot" class="btn">.</button>
+                <button id="equals" class="btn">=</button>
+                <button id="add" class="btn">+</button>
+            </div>
+            <button id="clear" class="btn" style="width: 100%">AC</button>
         </div>
     </div>
 </body>
