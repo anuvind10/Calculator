@@ -1,3 +1,4 @@
+
 function addNumbers(num1, num2) {
     return  num1+num2;
 }
@@ -18,10 +19,20 @@ function operate(operator, num1, num2){
 
 }
 
-// const buttons = document.querySelectorAll('.btn')
+const numbers = document.querySelectorAll('.num');
+const operators = document.querySelectorAll('.operator');
+const display = document.querySelector('#display')
 
-// function populateDisplay() {
-//     console.log();
-// }
-// buttons.forEach((button) => button.addEventListener('onclick', populateDisplay));
+function populateDisplay() {
+    const clickedValue = this.textContent;
+    let number = "";
+    display.textContent = clickedValue;
+    
+    if (this.classList == "num") {
+        number = clickedValue;
+    }
+}
+
+numbers.forEach((number) => number.addEventListener('click', populateDisplay))
+operators.forEach((operator) => operator.addEventListener('click', populateDisplay))
 
