@@ -1,10 +1,14 @@
-const numbers = document.querySelectorAll('.num');
-const operators = document.querySelectorAll('.operator');
-const display = document.querySelector('#display');
-const clear = document.querySelector("#clear");
-const equals = document.querySelector("#equals");
-let numberArray =[];
-let operatorArray = [];
+const digits = document.querySelectorAll('[data-digit]');
+const operators = document.querySelectorAll('[data-operator]');
+const currentDisplay = document.querySelector('#currentDisplay');
+const runningDisplay = document.querySelector('#runningDisplay')
+const clear = document.querySelector("[data-clear]");
+const equals = document.querySelector("[data-equals]");
+let finalValue = 0;
+let flag = 0;
+let firstOperand = '';
+let secondOperand = '';
+let currentOperation = null;
 
 function addNumbers(num1, num2) {
     return  num1+num2;
@@ -23,48 +27,77 @@ function divideNumbers(num1, num2) {
 }
 
 function operate(operator, num1, num2){
-    let displayValue
+    let result;
     switch(operator){
         case "+":
-            displayValue = addNumbers(num1, num2);
+            result = addNumbers(num1, num2);
             break;
             
         case "-":
-            displayValue = subtractNumbers(num1, num2);
+            result = subtractNumbers(num1, num2);
             break;
         
         case "x":
-            displayValue = multiplyNumbers(num1, num2);
+            result = multiplyNumbers(num1, num2);
             break;
 
         case "/":
-            displayValue = divideNumbers(num1, num2);
+            result = divideNumbers(num1, num2);
     }
-    display.value = displayValue;
+    return result;
 }
 
-function populateDisplay(input) {
-    const clickedValue = input.textContent;
-    if (input.id != "equals" && input.id != "clear") {
-        display.value += clickedValue;
+function populateDisplay(input, trigger = 'result') {
+    if (trigger == 'result') {  
+        currentDisplay.value = input;
+    }
+    else if (trigger.classList.contains('digit')) 
+        currentDisplay.value = input;
+    if (!(trigger.id == "equals" || trigger.id == "clear")) {
+        if (currentOperation == null)
+            runningDisplay.value = `${firstOperand}`
+        else
+        runningDisplay.value = `${firstOperand} ${currentOperation} ${secondOperand}`
+    }
+}
+
+function evaluateOperation() {
+    let result;
+    if (!(currentOperation == null)) {
+        result = operate(currentOperation, firstOperand, secondOperand);
+        populateDisplay(result);
+        firstOperand = result;
+        secondOperand = '';
+        currentOperation = '';
     }
 }
 
 function clearDisplay() {
-    display.value = "";
-    numberArray = [];
-    operatorArray = [];
+    currentDisplay.value = "";
+    runningDisplay.value = "";
+    firstOperand = '';
+    secondOperand = '';
+    currentOperation = null;
+    finalValue = 0;
 }
 
-let arr=[];
-
-// equals.addEventListener('click', operate(operator, num1, num2));
 clear.addEventListener('click',clearDisplay);
-numbers.forEach((number) => number.addEventListener('click', () => {
-    numberArray.push(Number(number.textContent));
-    populateDisplay(number);
+equals.addEventListener('click', evaluateOperation);
+digits.forEach((digit) => digit.addEventListener('click', (event) => {
+    if(currentOperation == null) {
+        firstOperand += event.target.textContent;
+        populateDisplay(firstOperand, event.target);
+    }
+    else {
+        secondOperand += event.target.textContent;
+        populateDisplay(secondOperand, event.target);
+    }
 }));
-operators.forEach((operator) => operator.addEventListener('click', () => {
-    operatorArray.push(operator.textContent);
-    populateDisplay(operator);
+
+
+operators.forEach((operator) => operator.addEventListener('click', (event) => {
+    if (!(currentOperation == null))
+    evaluateOperation();
+    currentOperation = event.target.textContent;
+    populateDisplay(firstOperand + currentOperation, event.target);
 }));

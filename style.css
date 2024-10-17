@@ -4,10 +4,17 @@
 
 #display {
     width: 196px;
-    height: 20px;
+    height: 50px;
     border: 1px solid black;
     text-align: end;
-    padding-top: 30px;
+    /* padding-top: 10px; */
+}
+
+.disp {
+    height: 21px;
+    width: 190px;
+    border: none;
+    text-align: end;
 }
 
 #container {
@@ -28,7 +35,7 @@
     display: flex;
 }
 
-.num, .operator {
+.digit, .operator {
     flex: 1 auto;
     width: 5px;
     height: 50px;
