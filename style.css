@@ -3,7 +3,7 @@
 }
 
 #display {
-    width: 196px;
+    width: 198px;
     height: 50px;
     border: 1px solid black;
     text-align: end;
@@ -39,4 +39,16 @@
     flex: 1 auto;
     width: 5px;
     height: 50px;
+}
+
+#del_clear {
+    display: flex;
+    width: 200px;
+}
+
+#del_clear > .operator {
+    flex: 1 auto;
+}
+
+#container > * {
 }

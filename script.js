@@ -4,6 +4,7 @@ const resultDisplay = document.querySelector('#resultDisplay');
 const runningDisplay = document.querySelector('#runningDisplay')
 const clear = document.querySelector("[data-clear]");
 const equals = document.querySelector("[data-equals]");
+const del = document.querySelector("#delete");
 let finalValue = 0;
 let flag = 0;
 let firstOperand = '';
@@ -11,7 +12,7 @@ let secondOperand = '';
 let currentInput = '';
 let currentOperation = null;
 let lastResult = '';
-let resetCalculator = false;
+let deleteInput = false;
 
 function addNumbers(num1, num2) {
     return  num1+num2;
@@ -53,7 +54,13 @@ function operate(operator, num1, num2){
 function populateDisplay(input, trigger = 'result') {
     if (trigger == 'result') {  
         resultDisplay.value = input;
-        runningDisplay.value += currentInput;
+
+        if (!deleteInput)
+            runningDisplay.value += currentInput;
+        else {
+            runningDisplay.value = runningDisplay.value.slice(0, -1);
+            deleteInput = false;
+        }
     }
     else runningDisplay.value += currentInput;
 }
@@ -65,6 +72,12 @@ function evaluateOperation() {
         secondOperand = "";
         currentOperation = null;
         lastResult = "";
+    }
+    else if (this.id == "delete") {
+        secondOperand = secondOperand.slice(0, -1);
+        currentInput = secondOperand;
+        deleteInput = true;
+        getResults();
     }
     else if (this.classList.contains("digit")) {
         currentInput = this.textContent;
@@ -93,7 +106,6 @@ function evaluateOperation() {
         populateDisplay(firstOperand + currentOperation, this);
         secondOperand = '';
     }
-
 }
 
 function getResults() {
@@ -114,7 +126,9 @@ function clearDisplay() {
     lastResult = '';
 }
 
-clear.addEventListener('click',clearDisplay);
-equals.addEventListener('click', evaluateOperation);
+
 digits.forEach((digit) => digit.addEventListener('click', evaluateOperation));
 operators.forEach((operator) => operator.addEventListener('click', evaluateOperation));
+equals.addEventListener('click', evaluateOperation);
+clear.addEventListener('click',clearDisplay);
+del.addEventListener('click', evaluateOperation);
