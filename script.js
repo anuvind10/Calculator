@@ -11,6 +11,7 @@ let secondOperand = '';
 let currentInput = '';
 let currentOperation = null;
 let lastResult = '';
+let resetCalculator = false;
 
 function addNumbers(num1, num2) {
     return  num1+num2;
@@ -58,9 +59,17 @@ function populateDisplay(input, trigger = 'result') {
 }
 
 function evaluateOperation() {
-    if (this.classList.contains("digit")) {
+    if (this.id == "equals") {
+        runningDisplay.value = '';
+        firstOperand = "";
+        secondOperand = "";
+        currentOperation = null;
+        lastResult = "";
+    }
+    else if (this.classList.contains("digit")) {
         currentInput = this.textContent;
         if(currentOperation == null) {
+            resultDisplay.value = '';
             secondOperand += currentInput;
             if (firstOperand == '')
                 populateDisplay(secondOperand, this);
