@@ -5,14 +5,15 @@ const runningDisplay = document.querySelector('#runningDisplay')
 const clear = document.querySelector("[data-clear]");
 const equals = document.querySelector("[data-equals]");
 const del = document.querySelector("#delete");
-let finalValue = 0;
-let flag = 0;
 let firstOperand = '';
 let secondOperand = '';
 let currentInput = '';
 let currentOperation = null;
 let lastResult = '';
-let deleteInput = false;
+let bDelete = false;
+let bEquals = false;
+let previousInput = "";
+let operatorList = ["+", "-", "x", "/"];
 
 function addNumbers(num1, num2) {
     return  num1+num2;
@@ -27,6 +28,8 @@ function multiplyNumbers(num1, num2) {
 }
 
 function divideNumbers(num1, num2) {
+    if (num2 === 0)
+        return "error";
     return num1/num2;
 }
 
@@ -51,54 +54,75 @@ function operate(operator, num1, num2){
     return result;
 }
 
+//Populate the displays
 function populateDisplay(input, trigger = 'result') {
-    if (trigger == 'result') {  
-        resultDisplay.value = input;
+    //Handle divide by 0 error
+    if (input == "error") {
+        resultDisplay.value = "CANNOT DIVIDE BY 0";
+        runningDisplay.value += currentInput;
+        return;
+    }
+    if (trigger == 'result') {
+        secondOperand == "" ? resultDisplay.value = '' : resultDisplay.value = input;   
 
-        if (!deleteInput)
-            runningDisplay.value += currentInput;
+        if (!bDelete) {
+                runningDisplay.value += currentInput;
+        }
         else {
-            runningDisplay.value = runningDisplay.value.slice(0, -1);
-            deleteInput = false;
+            if (runningDisplay.value != "")
+                runningDisplay.value = runningDisplay.value.slice(0, -1);
+            else {
+                firstOperand = "";
+            }
+            bDelete = false;
         }
     }
     else runningDisplay.value += currentInput;
+
+    if (runningDisplay.value.slice(-2, -1) == "/" && 
+            (runningDisplay.value.slice(-1) == "0"|| runningDisplay.value.slice(-1) == ""))
+        populateDisplay("error");
+    
+        previousInput = currentInput;
 }
 
+//Evaluates what needs to be done
 function evaluateOperation() {
-    if (this.id == "equals") {
-        runningDisplay.value = '';
-        firstOperand = "";
-        secondOperand = "";
-        currentOperation = null;
-        lastResult = "";
+    
+    //If previous operation was equals, then clear the results display
+    if(bEquals) {
+        resultDisplay.value = "";
+        bEquals = false;
     }
-    else if (this.id == "delete") {
-        secondOperand = secondOperand.slice(0, -1);
-        currentInput = secondOperand;
-        deleteInput = true;
-        getResults();
-    }
-    else if (this.classList.contains("digit")) {
+
+    if (this.classList.contains("digit")) {
         currentInput = this.textContent;
+
+        //first entry
         if(currentOperation == null) {
             resultDisplay.value = '';
             secondOperand += currentInput;
+            //Keep populating until the first operator is clicked
             if (firstOperand == '')
                 populateDisplay(secondOperand, this);
             else
                 getResults();
         }
+        //Second Entry
         else {
             secondOperand += currentInput;
             getResults();
         }
     }
     else if (this.classList.contains("operator")) {
+        //If previous input was also an operator, then replace it with the new one
+        if (operatorList.includes(previousInput)) {
+            deleteInput();
+        }
         currentOperation = this.textContent;
         currentInput = this.textContent
-    
-        if(lastResult == '') 
+        
+        if(lastResult == "") 
             firstOperand = secondOperand;
         else 
             firstOperand = lastResult;
@@ -108,6 +132,7 @@ function evaluateOperation() {
     }
 }
 
+// Gets the calculated results
 function getResults() {
     let result;
     if (!(currentOperation == null)) {
@@ -117,18 +142,31 @@ function getResults() {
     }
 }
 
+//Clears Display
 function clearDisplay() {
-    resultDisplay.value = "";
+    if (!bEquals)
+        resultDisplay.value = "";
     runningDisplay.value = "";
     firstOperand = '';
     secondOperand = '';
     currentOperation = null;
     lastResult = '';
+    bEquals = false;
 }
 
+//Deletes previous input
+function deleteInput() {
+    secondOperand = secondOperand.slice(0, -1);
+    currentInput = secondOperand;
+    bDelete = true;
+    getResults();
+}
 
 digits.forEach((digit) => digit.addEventListener('click', evaluateOperation));
 operators.forEach((operator) => operator.addEventListener('click', evaluateOperation));
-equals.addEventListener('click', evaluateOperation);
 clear.addEventListener('click',clearDisplay);
-del.addEventListener('click', evaluateOperation);
+del.addEventListener('click', deleteInput);
+equals.addEventListener('click', () => {
+    bEquals = true;
+    clearDisplay();
+});
