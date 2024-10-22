@@ -24,6 +24,7 @@ function subtractNumbers(num1, num2) {
 }
 
 function multiplyNumbers(num1, num2) {
+    num2 === ""? 1 : num2;
     return num1*num2;
 }
 
@@ -37,33 +38,36 @@ function operate(operator, num1, num2){
     let result;
     switch(operator){
         case "+":
-            result = addNumbers(num1, num2);
+            result = addNumbers(Number(num1), Number(num2));
             break;
             
         case "-":
-            result = subtractNumbers(num1, num2);
+            result = subtractNumbers(Number(num1), Number(num2));
             break;
         
         case "x":
-            result = multiplyNumbers(num1, num2);
+            if (num2 === "")
+                num2 = "1";
+            result = multiplyNumbers(Number(num1), Number(num2));
             break;
 
         case "/":
-            result = divideNumbers(num1, num2);
+            if (num2 === "")
+                num2 = "1";
+            result = divideNumbers(Number(num1), Number(num2));
     }
     return result;
 }
 
 //Populate the displays
 function populateDisplay(input, trigger = 'result') {
+    
     //Handle divide by 0 error
-    if (input == "error") {
-        resultDisplay.value = "CANNOT DIVIDE BY 0";
-        runningDisplay.value += currentInput;
-        return;
-    }
     if (trigger == 'result') {
-        secondOperand == "" ? resultDisplay.value = '' : resultDisplay.value = input;   
+        if (input == "error")
+            secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = "CANNOT DIVIDE BY 0";
+        else
+            secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = input;
 
         if (!bDelete) {
                 runningDisplay.value += currentInput;
@@ -71,19 +75,21 @@ function populateDisplay(input, trigger = 'result') {
         else {
             if (runningDisplay.value != "")
                 runningDisplay.value = runningDisplay.value.slice(0, -1);
-            else {
-                firstOperand = "";
-            }
+
+            if(currentOperation == null)
+                resultDisplay.value = "";
+
             bDelete = false;
         }
     }
-    else runningDisplay.value += currentInput;
+    else
+        runningDisplay.value = input;
+  
+    if (runningDisplay.value == "") {
+        firstOperand = "";
+    }
 
-    if (runningDisplay.value.slice(-2, -1) == "/" && 
-            (runningDisplay.value.slice(-1) == "0"|| runningDisplay.value.slice(-1) == ""))
-        populateDisplay("error");
-    
-        previousInput = currentInput;
+    previousInput = currentInput;
 }
 
 //Evaluates what needs to be done
@@ -96,6 +102,10 @@ function evaluateOperation() {
     }
 
     if (this.classList.contains("digit")) {
+        //Make sure user only inputs 1 decimal
+        if (this.id === "dot" && secondOperand.includes("."))
+            return;
+
         currentInput = this.textContent;
 
         //first entry
@@ -136,7 +146,7 @@ function evaluateOperation() {
 function getResults() {
     let result;
     if (!(currentOperation == null)) {
-        result = operate(currentOperation, Number(firstOperand), Number(secondOperand));
+        result = operate(currentOperation, firstOperand, secondOperand);
         populateDisplay(result);
         lastResult = result;
     }
@@ -144,8 +154,13 @@ function getResults() {
 
 //Clears Display
 function clearDisplay() {
-    if (!bEquals)
+    if (bEquals && resultDisplay.value == "") {
+        bEquals = false;
+        return
+    }
+    else if (!bEquals)
         resultDisplay.value = "";
+    
     runningDisplay.value = "";
     firstOperand = '';
     secondOperand = '';
@@ -159,7 +174,10 @@ function deleteInput() {
     secondOperand = secondOperand.slice(0, -1);
     currentInput = secondOperand;
     bDelete = true;
-    getResults();
+    if (currentOperation == null)   
+        populateDisplay(secondOperand);
+    else
+        getResults();
 }
 
 digits.forEach((digit) => digit.addEventListener('click', evaluateOperation));
