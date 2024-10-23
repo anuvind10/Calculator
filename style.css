@@ -67,6 +67,10 @@ main {
     width: 347px;
     padding-bottom: 2px;
 }
+#del_clear > .btns {
+    color: white;
+    background-color: rgb(100, 127, 138);
+}
 
 button {
     border: 1px solid black;
@@ -96,15 +100,7 @@ button {
     width: 5px;
     height: 70px;
     margin-right: 2px;
-    box-shadow: 3px 3px;
-}
-
-#delete {
-    background-color: rgb(251, 183, 58);
-}
-
-#clear  {
-    background-color: rgb(255, 94, 94);
+    box-shadow: 3px 3px black;
 }
 
 footer {
