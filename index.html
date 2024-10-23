@@ -8,41 +8,44 @@
     <script defer src="./script.js"></script>
 </head>
 <body>
-    <div id="container">
-        <div id="display">
-            <input id="runningDisplay" class="disp" disabled>
-            <input id="resultDisplay" class="disp" disabled/>
+    <main>
+        <div id="container">
+            <div id="display">
+                <input id="runningDisplay" class="disp" disabled>
+                <input id="resultDisplay" class="disp" disabled/>
+            </div>
+            <div id="del_clear">
+                <button id="clear" class="operator btns" data-clear>Clear</button>
+                <button id="delete" class="operator btns" data-delete>Delete</button>
+            </div>
+            <div id="buttons">
+                <div id="row1" class="btns">
+                    <button id="seven" class="digit" data-digit>7</button>
+                    <button id="eight" class="digit" data-digit>8</button>
+                    <button id="nine" class="digit" data-digit>9</button>
+                    <button id="divide" class="operator" data-operator>/</button>
+                </div>
+                <div id="row2" class="btns">
+                    <button id="four" class="digit" data-digit>4</button>
+                    <button id="five" class="digit" data-digit>5</button>
+                    <button id="six" class="digit" data-digit>6</button>
+                    <button id="multiply" class="operator" data-operator>x</button>
+                </div>
+                <div id="row3" class="btns">
+                    <button id="one" class="digit" data-digit>1</button>
+                    <button id="two" class="digit" data-digit>2</button>
+                    <button id="three" class="digit" data-digit>3</button>
+                    <button id="subtract" class="operator" data-operator>-</button>
+                </div>
+                <div id="row4" class="btns">
+                    <button id="zero" class="digit" data-digit>0</button>
+                    <button id="dot" class="digit" data-digit>.</button>
+                    <button id="equals" class="operator" data-equals>=</button>
+                    <button id="add" class="operator" data-operator>+</button>
+                </div>
+            </div>
         </div>
-        <div id="del_clear">
-            <button id="clear" class="operator" style="width: 100%" data-clear>Clear</button>
-            <button id="delete" class="operator" style="width: 100%" data-delete>Delete</button>
-        </div>
-        <div id="buttons">
-            <div id="row1" class="btns">
-                <button id="seven" class="digit" data-digit>7</button>
-                <button id="eight" class="digit" data-digit>8</button>
-                <button id="nine" class="digit" data-digit>9</button>
-                <button id="divide" class="operator" data-operator>/</button>
-            </div>
-            <div id="row2" class="btns">
-                <button id="four" class="digit" data-digit>4</button>
-                <button id="five" class="digit" data-digit>5</button>
-                <button id="six" class="digit" data-digit>6</button>
-                <button id="multiply" class="operator" data-operator>x</button>
-            </div>
-            <div id="row3" class="btns">
-                <button id="one" class="digit" data-digit>1</button>
-                <button id="two" class="digit" data-digit>2</button>
-                <button id="three" class="digit" data-digit>3</button>
-                <button id="subtract" class="operator" data-operator>-</button>
-            </div>
-            <div id="row4" class="btns">
-                <button id="zero" class="digit" data-digit>0</button>
-                <button id="dot" class="digit" data-digit>.</button>
-                <button id="equals" class="operator" data-equals>=</button>
-                <button id="add" class="operator" data-operator>+</button>
-            </div>
-        </div>
-    </div>
+    </main>
+    
 </body>
 </html>
