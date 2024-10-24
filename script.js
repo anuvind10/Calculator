@@ -1,19 +1,19 @@
-const digits = document.querySelectorAll('[data-digit]');
-const operators = document.querySelectorAll('[data-operator]');
-const resultDisplay = document.querySelector('#resultDisplay');
-const runningDisplay = document.querySelector('#runningDisplay')
-const clear = document.querySelector("[data-clear]");
-const equals = document.querySelector("[data-equals]");
+const digits = document.querySelectorAll(".digit");
+const operators = document.querySelectorAll(".operator");
+const resultDisplay = document.querySelector("#resultDisplay");
+const runningDisplay = document.querySelector("#runningDisplay")
+const clear = document.querySelector("#clear");
+const equals = document.querySelector("#equals");
 const del = document.querySelector("#delete");
-let firstOperand = '';
-let secondOperand = '';
-let currentInput = '';
-let currentOperation = null;
-let lastResult = '';
-let bDelete = false;
-let bEquals = false;
+let firstOperand = "";
+let secondOperand = "";
+let currentInput = "";
+let lastResult = "";
 let previousInput = "";
 let operatorList = ["+", "-", "x", "/"];
+let currentOperation = null;
+let bDelete = false;
+let bEquals = false;
 
 function addNumbers(num1, num2) {
     return  num1+num2;
@@ -60,10 +60,10 @@ function operate(operator, num1, num2){
 }
 
 //Populate the displays
-function populateDisplay(input, trigger = 'result') {
+function populateDisplay(input, trigger = "result") {
     
     //Handle divide by 0 error
-    if (trigger == 'result') {
+    if (trigger == "result") {
         if (input == "error")
             secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = "CANNOT DIVIDE BY 0!";
         else
@@ -114,10 +114,10 @@ function evaluateOperation() {
 
         //first entry
         if(currentOperation == null) {
-            resultDisplay.value = '';
+            resultDisplay.value = "";
             secondOperand += currentInput;
             //Keep populating until the first operator is clicked
-            if (firstOperand == '')
+            if (firstOperand == "")
                 populateDisplay(secondOperand, this);
             else
                 getResults();
@@ -142,7 +142,7 @@ function evaluateOperation() {
             firstOperand = lastResult;
         
         populateDisplay(firstOperand + currentOperation, this);
-        secondOperand = '';
+        secondOperand = "";
     }
 }
 
@@ -166,10 +166,10 @@ function clearDisplay() {
         resultDisplay.value = "";
     
     runningDisplay.value = "";
-    firstOperand = '';
-    secondOperand = '';
+    firstOperand = "";
+    secondOperand = "";
     currentOperation = null;
-    lastResult = '';
+    lastResult = "";
     bEquals = false;
 }
 
@@ -184,12 +184,20 @@ function deleteInput() {
         getResults();
 }
 
-digits.forEach((digit) => digit.addEventListener('click', evaluateOperation));
-operators.forEach((operator) => operator.addEventListener('click', evaluateOperation));
-clear.addEventListener('click',clearDisplay);
-del.addEventListener('click', deleteInput);
-equals.addEventListener('click', () => {
+digits.forEach((digit) => digit.addEventListener("click", evaluateOperation));
+operators.forEach((operator) => operator.addEventListener("click", evaluateOperation));
+clear.addEventListener("click",clearDisplay);
+del.addEventListener("click", deleteInput);
+equals.addEventListener("click", () => {
     bEquals = true;
     clearDisplay();
 });
 equals.addEventListener("click", () => resultDisplay.classList.add("equal-active"));
+
+//Handle keyboard input
+document.addEventListener("keydown", (event) => {
+    if (!document.querySelector(`button[data-key="${event.key}"]`))
+        return
+
+    document.querySelector(`button[data-key="${event.key}"]`).click();
+});

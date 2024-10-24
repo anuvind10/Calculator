@@ -79,6 +79,11 @@ main {
     padding-bottom: 2px;
 }
 #del_clear > .btns {
+    flex: 1 auto;
+    width: 5px;
+    height: 70px;
+    margin-right: 2px;
+    box-shadow: 3px 3px black;
     color: white;
     background-color: rgb(100, 127, 138);
 }
