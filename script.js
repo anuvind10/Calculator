@@ -64,14 +64,10 @@ function populateDisplay(input, trigger = 'result') {
     
     //Handle divide by 0 error
     if (trigger == 'result') {
-        if (input == "error") {
-            secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = "CANNOT DIVIDE BY 0";
-            resultDisplay.classList.add("error");
-        }
-        else {
+        if (input == "error")
+            secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = "CANNOT DIVIDE BY 0!";
+        else
             secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = input;
-            resultDisplay.classList.remove("error");
-        }
 
         if (!bDelete) {
                 runningDisplay.value += currentInput;
