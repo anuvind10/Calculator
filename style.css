@@ -53,7 +53,6 @@ main {
 
 #resultDisplay {
     height: 60px;
-    /* font-size: 25px; */
     font-weight: 1000;
 }
 
@@ -70,7 +69,6 @@ main {
 #del_clear > .btns {
     color: white;
     background-color: rgb(100, 127, 138);
-    /* background-color: rgb(123, 156, 169); */
 }
 
 button {
@@ -104,24 +102,6 @@ button {
     box-shadow: 3px 3px black;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-bottom: 50px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgb(185, 185, 185);
-}
-
-a {
-    color: rgb(185, 185, 185);
-    text-decoration: none;
-}
-
 .error {
     color: rgb(219, 96, 96);
 }
@@ -150,5 +130,23 @@ button:active {
     background-color: rgb(123, 156, 169);
     transition: background-color 0.3s, transform 0.3s;
     transform: translateY(-1px);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 50px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(185, 185, 185);
+}
+
+a {
+    color: rgb(185, 185, 185);
+    text-decoration: none;
 }
 
