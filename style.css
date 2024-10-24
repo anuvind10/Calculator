@@ -137,7 +137,7 @@ a {
 }
 
 button:hover {
-    background-color: white;
+    background-color: rgb(213, 213, 213);
     transition: background-color 0.3s, transform 0.3s;
     transform: translateY(-1px);
 }
