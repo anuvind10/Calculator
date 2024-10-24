@@ -196,6 +196,4 @@ equals.addEventListener('click', () => {
     bEquals = true;
     clearDisplay();
 });
-equals.addEventListener("click", () => {
-    resultDisplay.classList.add("equal-active")
-});
+equals.addEventListener("click", () => resultDisplay.classList.add("equal-active"));
