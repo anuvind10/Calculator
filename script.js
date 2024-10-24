@@ -64,10 +64,14 @@ function populateDisplay(input, trigger = 'result') {
     
     //Handle divide by 0 error
     if (trigger == 'result') {
-        if (input == "error")
+        if (input == "error") {
             secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = "CANNOT DIVIDE BY 0";
-        else
+            resultDisplay.classList.add("error");
+        }
+        else {
             secondOperand == "" ? resultDisplay.value = "" : resultDisplay.value = input;
+            resultDisplay.classList.remove("error");
+        }
 
         if (!bDelete) {
                 runningDisplay.value += currentInput;
@@ -102,11 +106,15 @@ function evaluateOperation() {
     }
 
     if (this.classList.contains("digit")) {
-        //Make sure user only inputs 1 decimal
+        resultDisplay.classList.remove("equal-active");
+
+        //Handle decimal input
         if (this.id === "dot" && secondOperand.includes("."))
             return;
-
-        currentInput = this.textContent;
+        else if (this.id === "dot" && secondOperand === "")
+            currentInput = "0" + this.textContent;
+        else
+            currentInput = this.textContent;
 
         //first entry
         if(currentOperation == null) {
@@ -187,4 +195,7 @@ del.addEventListener('click', deleteInput);
 equals.addEventListener('click', () => {
     bEquals = true;
     clearDisplay();
+});
+equals.addEventListener("click", () => {
+    resultDisplay.classList.add("equal-active")
 });
